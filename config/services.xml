@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bluspark_airflow_dag_run.airflow_dag_bridge" class="Bluspark\AirflowDagRunBundle\Bridge\AirflowDagBridge">
+            <argument type="service" id="bluspark_airflow_dag_run.validator" />
+            <argument type="service" id="bluspark_airflow_dag_run.http_client" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="bluspark_airflow_dag_run.validator" class="Bluspark\AirflowDagRunBundle\Validator\AirflowValidator" />
+        <service id="bluspark_airflow_dag_run.http_client" class="Bluspark\AirflowDagRunBundle\HttpClient\AirflowClient" />
+        <service id="Bluspark\AirflowDagRunBundle\Scheduler\DagRunSchedule" >
+            <tag name="airflow_dag_run">scheduler.schedule_provider</tag>
+        </service>
+        <service id="Bluspark\AirflowDagRunBundle\Scheduler\Handler\DagRunCheckerHandler">
+            <tag name="messenger.message_handler"
+                 handles="Bluspark\AirflowDagRunBundle\Message\DagRunChecker"/>
+        </service>
+
+        <service id="Bluspark\AirflowDagRunBundle\Contracts\Bridge\AirflowDagBridgeInterface" alias="bluspark_airflow_dag_run.airflow_dag_bridge" />
+        <service id="Bluspark\AirflowDagRunBundle\Contracts\Validator\AirflowValidatorInterface" alias="bluspark_airflow_dag_run.validator" />
+        <service id="Bluspark\AirflowDagRunBundle\Contracts\HttpClient\AirflowClientInterface" alias="bluspark_airflow_dag_run.http_client" />
+    </services>
+</container>
