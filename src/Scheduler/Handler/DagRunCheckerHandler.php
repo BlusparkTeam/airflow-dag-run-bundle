@@ -21,9 +21,14 @@ final class DagRunCheckerHandler
 
     public function __invoke(DagRunChecker $dagRunChecker): void
     {
+        if (!\class_exists(Symfony\Component\Scheduler\Event\PostRunEvent::class)) {
+            \sleep(30);
+        }
+
         $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier);
-        if ($dagRun->state !== 'executed') {
-            return;
+        while ($dagRun->state !== 'executed') {
+            \sleep(15);
+            $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier);
         }
 
         $dagRunChecker->setExecuted(true);
