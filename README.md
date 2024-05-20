@@ -45,6 +45,17 @@ framework:
 
 ```
 
+> **If you're using Symfony < 6.4**, the bundle won't use `Scheduler` but a standard message dispatched through a `MessengerBus` instead.  
+> If so, you must declare **all** the bundl'es messages for the transport management :
+> ```yaml
+>framework:
+>  messenger:
+>
+>    routing:
+>      'Bluspark\AirflowDagRunBundle\Scheduler\Message\*': my_project_transport
+>
+> ```
+
 ## Usage
 The bundle provide a bridge service class that you can use in your project through using dependency injection.
 ```php
@@ -76,7 +87,7 @@ Once the export file has been requested on Airflow, the bundle uses a [Scheduler
 Then, the bundle dispatch using [Symfony Messenger](https://symfony.com/doc/current/messenger.html) component a `Bluspark\AirflowDagRunBundle\Message\DagRunMessageExecuted` message with a `filename` property containing the now available file on S3
 You will have to implement the handler for the `Bluspark\AirflowDagRunBundle\Message\DagRunMessageExecuted` message with your own logic inside your project.  
 
-To run the Scheduler transport used by this bundle, do not forget to run the following command 
+To run the Scheduler transport used by this bundle, do not forget to run the following command (**only for Symfony version >= 6.4**)
 ```bash
 bin/console messenger:consume scheduler_airflow_dag_run
 ```
