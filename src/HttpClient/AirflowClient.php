@@ -34,7 +34,7 @@ final class AirflowClient implements AirflowClientInterface
             ]
         )->toArray();
 
-        return new DagRunOutput($airflowData);
+        return new DagRunOutput($airflowData, $parameters['extra'] ?? []);
     }
 
     public function getDagRun(string $dagRunIdentifier): DagRunOutput
