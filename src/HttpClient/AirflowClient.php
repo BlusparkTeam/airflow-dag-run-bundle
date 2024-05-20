@@ -29,8 +29,8 @@ final class AirflowClient implements AirflowClientInterface
     {
         $airflowData = $this->airflowClient->request(
             'POST',
-            sprintf('/dags/%s/dagRuns', $this->airflowDagId), [
-                'body' => $parameters
+            sprintf('%s/dags/%s/dagRuns', $this->airflowHost, $this->airflowDagId), [
+                'json' => ['conf' => $parameters],
             ]
         )->toArray();
 

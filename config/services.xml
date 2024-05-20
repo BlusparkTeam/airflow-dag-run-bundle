@@ -9,6 +9,7 @@
             <argument type="service" id="bluspark_airflow_dag_run.validator" />
             <argument type="service" id="bluspark_airflow_dag_run.http_client" />
             <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="messenger.bus.default" />
         </service>
         <service id="bluspark_airflow_dag_run.validator" class="Bluspark\AirflowDagRunBundle\Validator\AirflowValidator" />
         <service id="bluspark_airflow_dag_run.http_client" class="Bluspark\AirflowDagRunBundle\HttpClient\AirflowClient" />
@@ -18,6 +19,8 @@
         <service id="Bluspark\AirflowDagRunBundle\Scheduler\Handler\DagRunCheckerHandler">
             <tag name="messenger.message_handler"
                  handles="Bluspark\AirflowDagRunBundle\Message\DagRunChecker"/>
+            <argument type="service" id="bluspark_airflow_dag_run.http_client" />
+            <argument type="service" id="messenger.bus.default" />
         </service>
 
         <service id="Bluspark\AirflowDagRunBundle\Contracts\Bridge\AirflowDagBridgeInterface" alias="bluspark_airflow_dag_run.airflow_dag_bridge" />
