@@ -20,6 +20,9 @@ class AirflowValidator implements AirflowValidatorInterface
         return \count($diff) === 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getErrorMessage(array $parameterKeys): string
     {
         $diff = \array_diff($parameterKeys, self::ALLOWED_PARAMETERS);

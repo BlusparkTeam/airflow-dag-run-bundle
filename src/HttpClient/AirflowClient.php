@@ -25,6 +25,9 @@ final class AirflowClient implements AirflowClientInterface
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function triggerNewDagRun(array $parameters): DagRunOutput
     {
         $airflowData = $this->airflowClient->request(
