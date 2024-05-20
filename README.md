@@ -81,6 +81,7 @@ Authorized parameters for the export request are:
 - `format`: format expected for the export file (eg: "csv", "xls")
 - `export`: data type for your export (eg: 'pickup', 'producer', ...)
 - `search`: array of filters you want to apply for data included in your export file
+- `extra`: array of data that you want to use or pass throughout all the export process (e.g. an email to notify on success)
 
 No other configuration parameters are considered valid.  
 Once the export file has been requested on Airflow, the bundle uses a [Scheduler](https://symfony.com/doc/current/scheduler.html) recurring message to check every 30 seconds if the file has been successfully created, with its own handler.
