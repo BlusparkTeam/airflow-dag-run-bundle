@@ -37,12 +37,13 @@ class AirflowDagBridge implements AirflowDagBridgeInterface
         }
 
         $newDagRun = $this->airflowClient->triggerNewDagRun($exportDataParameters);
+        $dagRunCheckerMessage = new DagRunChecker($newDagRun->dagRunIdentifier, $exportDataParameters['extra'] ?? []);
 
         if (!\class_exists(Symfony\Component\Scheduler\Event\PostRunEvent::class)) {
-            $this->messageBus->dispatch(new DagRunChecker($newDagRun->dagRunIdentifier));
+            $this->messageBus->dispatch($dagRunCheckerMessage);
         } else {
             $event = new DagRunCheckerMessageAdded(
-                RecurringMessage::every('30 seconds', new DagRunChecker($newDagRun->dagRunIdentifier))
+                RecurringMessage::every('30 seconds', $dagRunCheckerMessage)
             );
             $this->eventDispatcher->dispatch($event);
         }

@@ -6,8 +6,12 @@ namespace Bluspark\AirflowDagRunBundle\Message;
 
 final class DagRunChecker
 {
+    /**
+     * @param array<string> $extraData
+     */
     public function __construct(
         public readonly string $dagRunIdentifier,
+        public readonly array $extraData = [],
         private bool $executed = false
     ) {
     }
