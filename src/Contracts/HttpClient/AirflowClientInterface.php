@@ -9,7 +9,7 @@ use Bluspark\AirflowDagRunBundle\Airflow\DagRunOutput;
 interface AirflowClientInterface
 {
     /**
-     * @param array{format?: string, export?: string, search?: array<string>} $parameters
+     * @param array{format?: string, export?: string, search?: array<string>, extra?: array<string>} $parameters
      */
     public function triggerNewDagRun(array $parameters): DagRunOutput;
 

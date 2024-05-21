@@ -32,8 +32,6 @@ final class DagRunCheckerHandler
         }
 
         $dagRunChecker->setExecuted(true);
-        /** @var \DateTimeImmutable $executionDate */
-        $executionDate = \DateTimeImmutable::createFromFormat(DATE_ATOM, $dagRun->executionDate);
         $filename = sprintf('%s.%s', $dagRun->dagRunIdentifier, $dagRun->conf['format']);
 
         $this->messageBus->dispatch(new DagRunMessageExecuted($filename));

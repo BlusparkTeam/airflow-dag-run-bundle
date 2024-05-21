@@ -25,6 +25,9 @@ final class AirflowClient implements AirflowClientInterface
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function triggerNewDagRun(array $parameters): DagRunOutput
     {
         $airflowData = $this->airflowClient->request(
@@ -34,7 +37,7 @@ final class AirflowClient implements AirflowClientInterface
             ]
         )->toArray();
 
-        return new DagRunOutput($airflowData);
+        return new DagRunOutput($airflowData, $parameters['extra'] ?? []);
     }
 
     public function getDagRun(string $dagRunIdentifier): DagRunOutput

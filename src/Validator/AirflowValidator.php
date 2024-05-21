@@ -8,7 +8,7 @@ use Bluspark\AirflowDagRunBundle\Contracts\Validator\AirflowValidatorInterface;
 
 class AirflowValidator implements AirflowValidatorInterface
 {
-    private const ALLOWED_PARAMETERS = ['format', 'export', 'search'];
+    private const ALLOWED_PARAMETERS = ['format', 'export', 'search', 'extra'];
 
     /**
      * {@inheritDoc}
@@ -20,6 +20,9 @@ class AirflowValidator implements AirflowValidatorInterface
         return \count($diff) === 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getErrorMessage(array $parameterKeys): string
     {
         $diff = \array_diff($parameterKeys, self::ALLOWED_PARAMETERS);

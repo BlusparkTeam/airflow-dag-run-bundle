@@ -13,6 +13,8 @@ final class DagRunOutput
     public readonly string $executionDate;
     /** @var array<string> $conf */
     public readonly array $conf;
+    /** @var array<string> $extraData */
+    public readonly array $extraData;
 
     /**
      * @param array{
@@ -23,8 +25,9 @@ final class DagRunOutput
      *     execution_date?: string,
      *     conf?: array<string>
      *         } $airflowDagRunData
+     * @param array<string> $extraData
      */
-    public function __construct(array $airflowDagRunData)
+    public function __construct(array $airflowDagRunData, array $extraData = [])
     {
         $this->dagIdentifier = $airflowDagRunData['dag_id'] ?? '';
         $this->dagRunIdentifier = $airflowDagRunData['dag_run_id'] ?? '';
@@ -32,5 +35,6 @@ final class DagRunOutput
         $this->externalTrigger = $airflowDagRunData['external_trigger'] ?? false;
         $this->executionDate = $airflowDagRunData['execution_date'] ?? '';
         $this->conf = $airflowDagRunData['conf'] ?? [];
+        $this->extraData = $extraData;
     }
 }
