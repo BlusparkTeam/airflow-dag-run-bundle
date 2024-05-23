@@ -34,6 +34,6 @@ final class DagRunCheckerHandler
         $dagRunChecker->setExecuted(true);
         $filename = sprintf('%s.%s', $dagRun->dagRunIdentifier, $dagRun->conf['format']);
 
-        $this->messageBus->dispatch(new DagRunMessageExecuted($filename));
+        $this->messageBus->dispatch(new DagRunMessageExecuted($filename, $dagRunChecker->extraData));
     }
 }
