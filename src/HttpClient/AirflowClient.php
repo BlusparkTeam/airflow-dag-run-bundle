@@ -42,6 +42,11 @@ final class AirflowClient implements AirflowClientInterface
 
     public function getDagRun(string $dagRunIdentifier): DagRunOutput
     {
-        return new DagRunOutput([]);
+        $airflowData = $this->airflowClient->request(
+            'GET',
+            sprintf('%s/dags/%s/dagRuns/%s', $this->airflowHost, $this->airflowDagId, $dagRunIdentifier)
+        )->toArray();
+
+        return new DagRunOutput($airflowData);
     }
 }
