@@ -6,6 +6,9 @@ namespace Bluspark\AirflowDagRunBundle\Airflow;
 
 final class DagRunOutput
 {
+    public const AIRFLOW_EXCEL_FORMAT = 'excel';
+    public const AIRFLOW_CSV_FORMAT = 'csv';
+
     public readonly string $dagIdentifier;
     public readonly string $dagRunIdentifier;
     public readonly string $state;
