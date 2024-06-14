@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bluspark\AirflowDagRunBundle\Scheduler\Handler;
 
+use Bluspark\AirflowDagRunBundle\Airflow\DagRunOutput;
 use Bluspark\AirflowDagRunBundle\Contracts\HttpClient\AirflowClientInterface;
 use Bluspark\AirflowDagRunBundle\DagRunFailedException;
 use Bluspark\AirflowDagRunBundle\Message\DagRunChecker;
@@ -42,7 +43,12 @@ final class DagRunCheckerHandler
         }
 
         $dagRunChecker->setExecuted(true);
-        $filename = sprintf('%s.%s', $dagRun->dagRunIdentifier, $dagRun->conf['format']);
+        $extension = match (true) {
+            $dagRun->conf['format'] === DagRunOutput::AIRFLOW_EXCEL_FORMAT => 'xlsx',
+            $dagRun->conf['format'] === DagRunOutput::AIRFLOW_CSV_FORMAT => DagRunOutput::AIRFLOW_CSV_FORMAT,
+            default => $dagRun->conf['format']
+        };
+        $filename = sprintf('%s.%s', $dagRun->dagRunIdentifier, $extension);
 
         $this->messageBus->dispatch(new DagRunMessageExecuted($filename, $dagRunChecker->extraData));
     }
