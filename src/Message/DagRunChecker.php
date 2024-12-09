@@ -11,6 +11,7 @@ final class DagRunChecker
      */
     public function __construct(
         public readonly string $dagRunIdentifier,
+        public readonly string $dagId,
         public readonly array $extraData = [],
         private bool $executed = false
     ) {

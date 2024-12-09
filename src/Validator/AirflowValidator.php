@@ -8,7 +8,7 @@ use Bluspark\AirflowDagRunBundle\Contracts\Validator\AirflowValidatorInterface;
 
 class AirflowValidator implements AirflowValidatorInterface
 {
-    private const ALLOWED_PARAMETERS = ['format', 'export', 'search', 'extra'];
+    private const ALLOWED_PARAMETERS = ['format', 'export', 'search', 'extra', 'raw'];
 
     /**
      * {@inheritDoc}

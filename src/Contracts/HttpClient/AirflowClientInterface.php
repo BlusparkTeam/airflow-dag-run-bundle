@@ -11,7 +11,7 @@ interface AirflowClientInterface
     /**
      * @param array{format?: string, export?: string, search?: array<string>, extra?: array<string>} $parameters
      */
-    public function triggerNewDagRun(array $parameters): DagRunOutput;
+    public function triggerNewDagRun(array $parameters, ?string $dagId = null): DagRunOutput;
 
-    public function getDagRun(string $dagRunIdentifier): DagRunOutput;
+    public function getDagRun(string $dagRunIdentifier, string $dagId): DagRunOutput;
 }

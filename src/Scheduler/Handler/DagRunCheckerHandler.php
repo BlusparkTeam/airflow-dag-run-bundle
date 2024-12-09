@@ -33,13 +33,13 @@ final class DagRunCheckerHandler
             \sleep(30);
         }
 
-        $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier);
+        $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier, $dagRunChecker->dagId);
         while ($dagRun->state !== self::STATE_SUCCESS) {
             if ($dagRun->state === self::STATE_FAILED) {
                 throw new DagRunFailedException($dagRunChecker->dagRunIdentifier);
             }
             \sleep(15);
-            $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier);
+            $dagRun = $this->airflowClient->getDagRun($dagRunChecker->dagRunIdentifier, $dagRunChecker->dagId);
         }
 
         $dagRunChecker->setExecuted(true);

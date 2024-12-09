@@ -19,9 +19,8 @@ final class BlusparkAirflowDagRunBundle extends AbstractBundle
                     ->defaultValue('https://airflow.example.org')
                     ->info('Airflow API hostname (must include scheme "http" or "https")')
                     ->end()
-                ->scalarNode('airflow_dag_id')
-                    ->defaultValue('airflow-dag-id')
-                    ->info('Your Airflow dag ID')
+                ->scalarNode('airflow_dag_ids')
+                    ->info('Your Airflow dag IDs')
                     ->end()
                 ->scalarNode('airflow_username')
                     ->defaultValue('username')
@@ -42,7 +41,7 @@ final class BlusparkAirflowDagRunBundle extends AbstractBundle
         $container->services()
             ->get('bluspark_airflow_dag_run.http_client')
             ->args([
-                $config['airflow_dag_id'],
+                $config['airflow_dag_ids'],
                 $config['airflow_host'],
                 $config['airflow_username'],
                 $config['airflow_password'],

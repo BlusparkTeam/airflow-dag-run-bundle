@@ -12,7 +12,7 @@ final class AirflowValidatorTest extends TestCase
     public function testValidateSuccessful(): void
     {
         $validator = new AirflowValidator();
-        $confirmed = $validator->validateRequestParameters(['format','export']);
+        $confirmed = $validator->validateRequestParameters(['format','export', 'raw']);
         self::assertTrue($confirmed);
     }
 
