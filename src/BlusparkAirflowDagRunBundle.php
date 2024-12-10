@@ -21,6 +21,12 @@ final class BlusparkAirflowDagRunBundle extends AbstractBundle
                     ->end()
                 ->scalarNode('airflow_dag_ids')
                     ->info('Your Airflow dag IDs')
+                    ->isRequired()
+                    ->validate()
+                        ->ifTrue(function($value) {
+                            return preg_match('/^([0-9a-zA-Z\-\._]+|[0-9a-zA-Z\-\._]+\:[0-9a-zA-Z\-\._]+(,?[0-9a-zA-Z\-\._]+\:[0-9a-zA-Z\-\._]+)*)$/', $value);
+                        })
+                        ->thenInvalid("please use this format: dag-id or dagName:dag-id,anotherDagName:another-dag-id")
                     ->end()
                 ->scalarNode('airflow_username')
                     ->defaultValue('username')
@@ -31,7 +37,7 @@ final class BlusparkAirflowDagRunBundle extends AbstractBundle
                     ->info('Your Airflow API password')
                     ->end()
             ->end()
-            ;
+        ;
     }
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
