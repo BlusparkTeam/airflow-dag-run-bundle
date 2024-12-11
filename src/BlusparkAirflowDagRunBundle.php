@@ -28,6 +28,7 @@ final class BlusparkAirflowDagRunBundle extends AbstractBundle
                         })
                         ->thenInvalid("please use this format: dag-id or dagName:dag-id,anotherDagName:another-dag-id")
                     ->end()
+                ->end()
                 ->scalarNode('airflow_username')
                     ->defaultValue('username')
                     ->info('Your Airflow API username')
