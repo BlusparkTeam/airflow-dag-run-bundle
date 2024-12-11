@@ -26,7 +26,7 @@ class AirflowDagBridge implements AirflowDagBridgeInterface
     /**
      * {@inheritDoc}
      */
-    public function requestNewExportFile(array $exportDataParameters): array
+    public function requestNewExportFile(array $exportDataParameters, ?string $dagId = null): array
     {
         $parametersKeys = \array_keys($exportDataParameters);
         if (!$this->airflowValidator->validateRequestParameters($parametersKeys)) {
@@ -36,8 +36,8 @@ class AirflowDagBridge implements AirflowDagBridgeInterface
             ];
         }
 
-        $newDagRun = $this->airflowClient->triggerNewDagRun($exportDataParameters);
-        $dagRunCheckerMessage = new DagRunChecker($newDagRun->dagRunIdentifier, $exportDataParameters['extra'] ?? []);
+        $newDagRun = $this->airflowClient->triggerNewDagRun($exportDataParameters, $dagId);
+        $dagRunCheckerMessage = new DagRunChecker($newDagRun->dagRunIdentifier, $newDagRun->dagIdentifier, $exportDataParameters['extra'] ?? []);
 
         if (!\class_exists(Symfony\Component\Scheduler\Event\PostRunEvent::class)) {
             $this->messageBus->dispatch($dagRunCheckerMessage);

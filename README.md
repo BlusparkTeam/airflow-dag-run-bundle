@@ -26,7 +26,7 @@ Add a `bluspark_airflow_dag_run.yaml` file in your `config/packages` directory t
 ```yaml
 bluspark_airflow_dag_run:
   airflow_host: https://from-config.example.org
-  airflow_dag_id: your-dag-id
+  airflow_dag_ids: your-dag-id # or name:dag-id,anotherName:another-dag-id
   airflow_username: user
   airflow_password: !ChangeMe!
 ```
@@ -73,6 +73,9 @@ final class YourController extends AbstractController
     {
         // ... build your $config array with your export parameters
         $dagRunStatus = $airflowDagBridge->requestNewExportFile($config);
+        
+        // or if you passed an array of dagIds like "name:dag-id,anotherName:another-dag-id"
+        $dagRunStatus = $airflowDagBridge->requestNewExportFile($config, 'anotherName');
     }
 }
 ```
@@ -82,6 +85,7 @@ Authorized parameters for the export request are:
 - `export`: data type for your export (eg: 'pickup', 'producer', ...)
 - `search`: array of filters you want to apply for data included in your export file
 - `extra`: array of data that you want to use or pass throughout all the export process (e.g. an email to notify on success)
+- `raw`: array of data only sent and used in request (eg: initial filters before convertion)
 
 No other configuration parameters are considered valid.  
 Once the export file has been requested on Airflow, the bundle uses a [Scheduler](https://symfony.com/doc/current/scheduler.html) recurring message to check every 30 seconds if the file has been successfully created, with its own handler.

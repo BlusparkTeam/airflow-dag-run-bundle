@@ -25,7 +25,7 @@ final class AirflowDagBridgeTest extends TestCase
 
         $bridge = new AirflowDagBridge($validatorMock, $httpClientMock, $eventDispatcherMock, $messageBusMock);
         $dagRunOutput = new DagRunOutput(['dag_id' => 'bluspark', 'dag_run_id' => 'run-test']);
-        $message = new DagRunChecker('run-test');
+        $message = new DagRunChecker($dagRunOutput->dagRunIdentifier, $dagRunOutput->dagIdentifier);
 
         $validatorMock->expects(self::once())->method('validateRequestParameters')->willReturn(true);
         $httpClientMock->expects(self::once())->method('triggerNewDagRun')->willReturn($dagRunOutput);

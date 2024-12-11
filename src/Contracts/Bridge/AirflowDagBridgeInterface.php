@@ -10,5 +10,5 @@ interface AirflowDagBridgeInterface
      * @param array{format?: string, export?: string, search?: array<string>, extra?: array<string>} $exportDataParameters
      * @return array{success: bool, message?: string}
      */
-    public function requestNewExportFile(array $exportDataParameters): array;
+    public function requestNewExportFile(array $exportDataParameters, ?string $dagId = null): array;
 }
