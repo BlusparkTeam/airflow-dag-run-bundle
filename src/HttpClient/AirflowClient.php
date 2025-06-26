@@ -54,18 +54,17 @@ final class AirflowClient implements AirflowClientInterface
 
         $airflowData = $this->airflowClient->request(
             'POST',
-            sprintf('%s%s/dags/%s/dagRuns', $this->airflowHost, self::API_PATH, $this->gashmapOfDagsIds[$dagId] ?? $this->defaultDagId), [
+            sprintf('%s%s/dags/%s/dagRuns', $this->airflowHost, self::API_PATH, $this->gashmapOfDagsIds[$dagId] ?? $this->defaultDagId),
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Content-Type' => 'application/json'
+                ],
                 'json' => [
                     'logical_date' => null,
                     'conf' => $parameters
                 ],
             ],
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
-                    'Content-Type' => 'application/json'
-                ]
-            ]
         )->toArray();
 
         return new DagRunOutput($airflowData, $parameters['extra'] ?? []);
@@ -93,16 +92,14 @@ final class AirflowClient implements AirflowClientInterface
         $token = $this->airflowClient->request(
             'POST',
             sprintf('%s%s', $this->airflowHost, self::AUTH_PATH), [
+                'headers' => [
+                    'Content-Type' => 'application/json'
+                ],
                 'json' => [
                     'username' => $this->airflowUsername,
                     'password' => $this->airflowPassword
                 ],
             ],
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ]
-            ]
         )->toArray();
 
         return $token['access_token'];
